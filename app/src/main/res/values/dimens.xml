@@ -1,0 +1,9 @@
+<!-- res/values/dimens.xml -->
+<resources>
+    <dimen name="dialog_width">300dp</dimen>
+    <dimen name="dialog_height">200dp</dimen>
+    <dimen name="max_scroll_height">@dimen/_220sdp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="min_width">48dp</dimen>
+</resources>

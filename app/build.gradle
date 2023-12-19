@@ -1,0 +1,89 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
+}
+
+android {
+    namespace 'com.mobileappxperts.clicktochat.whatsapp'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.mobileappxperts.clicktochat.whatsapp"
+        minSdk 24
+        targetSdk 33
+        versionCode 1
+        versionName "0.0.1"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.2'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.lifecycle:lifecycle-process:2.6.2'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.8.22"
+
+    //sdp
+    implementation 'com.intuit.sdp:sdp-android:1.1.0'
+
+    //CountryCodePicker library
+    implementation 'com.hbb20:ccp:2.6.1'
+
+    implementation 'com.googlecode.libphonenumber:libphonenumber:8.12.36'
+
+    // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:32.7.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation("com.google.firebase:firebase-config")
+
+    //google admob android
+    implementation 'com.google.android.gms:play-services-ads:22.5.0'
+
+    //Gson
+    implementation ("com.google.code.gson:gson:2.10.1")
+
+    //GDPR
+    implementation ("com.google.android.ads.consent:consent-library:1.0.8")
+
+    implementation("com.google.android.play:review:2.0.1")
+    implementation("com.google.android.play:review-ktx:2.0.1")
+
+    //in App update
+    implementation ("com.google.android.play:app-update:2.1.0")
+    implementation ("com.google.android.play:app-update-ktx:2.1.0")
+
+    //oneSignal
+    implementation("com.onesignal:OneSignal:[5.0.0, 5.99.99]")
+
+    implementation 'androidx.core:core-splashscreen:1.0.0-beta01'
+}

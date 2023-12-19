@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "530907201609",
+    "project_id": "click-to-chat-d1917",
+    "storage_bucket": "click-to-chat-d1917.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:530907201609:android:ce4c3a51c4b1ed0001ff98",
+        "android_client_info": {
+          "package_name": "com.mobileappxperts.clicktochat.whatsapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxTIcQAxGT-yNpXkgqjkMyW0pE19eGLfo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
