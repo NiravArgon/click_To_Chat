@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mobileappxperts.clicktochat.whatsapp.clicktooprnchat.ui.TransparentActivity">
+    tools:context="openinwhatsapp.directchat.clicktochat.openinwhatsapp.mobileappxperts.clicktochat.whatsapp.clicktooprnchat.ui.TransparentActivity">
 
 </androidx.appcompat.widget.LinearLayoutCompat>
 

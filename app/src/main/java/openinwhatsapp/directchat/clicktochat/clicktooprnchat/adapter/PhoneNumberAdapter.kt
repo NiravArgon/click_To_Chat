@@ -1,4 +1,4 @@
-package com.mobileappxperts.clicktochat.whatsapp.clicktooprnchat.adapter
+package openinwhatsapp.directchat.clicktochat.clicktooprnchat.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.mobileappxperts.clicktochat.whatsapp.R
+import openinwhatsapp.directchat.clicktochat.R
 
 class PhoneNumberAdapter(
     private val context: Context,

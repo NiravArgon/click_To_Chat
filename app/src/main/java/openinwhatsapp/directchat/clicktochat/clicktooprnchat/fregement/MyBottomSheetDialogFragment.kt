@@ -1,4 +1,4 @@
-package com.mobileappxperts.clicktochat.whatsapp.clicktooprnchat.fregement
+package openinwhatsapp.directchat.clicktochat.clicktooprnchat.fregement
 
 import AppPreferences
 import android.os.Bundle
@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import com.mobileappxperts.clicktochat.whatsapp.clicktooprnchat.utils.Constant
+import openinwhatsapp.directchat.clicktochat.clicktooprnchat.utils.Constant
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.mobileappxperts.clicktochat.whatsapp.R
+import openinwhatsapp.directchat.clicktochat.R
 
 class MyBottomSheetDialogFragment : BottomSheetDialogFragment() {
 

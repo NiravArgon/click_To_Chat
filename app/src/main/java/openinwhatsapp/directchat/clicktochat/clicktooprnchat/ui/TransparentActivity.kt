@@ -1,35 +1,21 @@
-package com.mobileappxperts.clicktochat.whatsapp.clicktooprnchat.ui
+package openinwhatsapp.directchat.clicktochat.clicktooprnchat.ui
 
 import AppPreferences
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.drawable.Icon
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.Editable
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.TextPaint
 import android.text.TextWatcher
-import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import com.mobileappxperts.clicktochat.whatsapp.clicktooprnchat.adapter.PhoneNumberAdapter
-import com.mobileappxperts.clicktochat.whatsapp.clicktooprnchat.fregement.MyBottomSheetDialogFragment
-import com.mobileappxperts.clicktochat.whatsapp.clicktooprnchat.utils.Constant
-import com.example.notisave.ads.AdmobAdManager.loadBannerAd
 import com.google.ads.consent.ConsentInformation
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
@@ -40,14 +26,20 @@ import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.ktx.isFlexibleUpdateAllowed
 import com.google.android.play.core.ktx.isImmediateUpdateAllowed
 import com.google.i18n.phonenumbers.PhoneNumberUtil
-import com.mobileappxperts.clicktochat.whatsapp.R
-import com.mobileappxperts.clicktochat.whatsapp.clicktooprnchat.utils.Constant.showRateUsDialog
-import com.mobileappxperts.clicktochat.whatsapp.databinding.ActivityTransparentBinding
-import com.mobileappxperts.clicktochat.whatsapp.databinding.CustomSettingPopupLayoutBinding
-import com.mobileappxperts.clicktochat.whatsapp.databinding.DeleteDilogPopupLayoutBinding
-import com.mobileappxperts.clicktochat.whatsapp.databinding.MainLayoutBinding
-import com.mobileappxperts.clicktochat.whatsapp.databinding.SavedContectListPopupLayoutBinding
-import com.mobileappxperts.clicktochat.whatsapp.databinding.TelegramAttentionDilogBinding
+import openinwhatsapp.directchat.clicktochat.App
+import openinwhatsapp.directchat.clicktochat.R
+import openinwhatsapp.directchat.clicktochat.clicktooprnchat.adapter.PhoneNumberAdapter
+import openinwhatsapp.directchat.clicktochat.clicktooprnchat.fregement.MyBottomSheetDialogFragment
+import openinwhatsapp.directchat.clicktochat.clicktooprnchat.utils.Constant
+import openinwhatsapp.directchat.clicktochat.clicktooprnchat.utils.Constant.showRateUsDialog
+import openinwhatsapp.directchat.clicktochat.databinding.ActivityTransparentBinding
+import openinwhatsapp.directchat.clicktochat.databinding.CustomSettingPopupLayoutBinding
+import openinwhatsapp.directchat.clicktochat.databinding.DeleteDilogPopupLayoutBinding
+import openinwhatsapp.directchat.clicktochat.databinding.MainLayoutBinding
+import openinwhatsapp.directchat.clicktochat.databinding.SavedContectListPopupLayoutBinding
+import openinwhatsapp.directchat.clicktochat.databinding.TelegramAttentionDilogBinding
+import com.nirav.commons.CommonGdprDialog
+import com.nirav.commons.ads.CommonAdManager.showBannerAd
 import com.onesignal.OneSignal
 import com.onesignal.debug.LogLevel
 import kotlinx.coroutines.CoroutineScope
@@ -55,7 +47,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
-import java.net.URLEncoder
 import java.util.UUID
 
 class TransparentActivity : AppCompatActivity() {
@@ -63,35 +54,25 @@ class TransparentActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTransparentBinding
     private lateinit var customDialogBinding: MainLayoutBinding
     private lateinit var customSettingPopupLayoutBinding: CustomSettingPopupLayoutBinding
-
     private var customDialog: Dialog? = null
     private var customSettingDialog: Dialog? = null
     private var customSaveContactDialog: Dialog? = null
-
     private lateinit var appUpdateManager: AppUpdateManager
     private val updateType = AppUpdateType.IMMEDIATE
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTransparentBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
-
-        Log.i("TAG", "onCreatesdfgsdfg: 0")
 
         ConsentInformation.getInstance(this).isRequestLocationInEeaOrUnknown()
 
-        Log.i("TAG", "onCreatesdfgsdfg: 1")
-
         appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
-
         if (updateType == AppUpdateType.FLEXIBLE) {
             appUpdateManager.registerListener(installStateUpdatedListener)
         }
 
         checkForUpdates()
-
-        Log.i("TAG", "onCreatesdfgsdfg: 2")
 
         OneSignal.Debug.logLevel = LogLevel.VERBOSE
 
@@ -99,6 +80,8 @@ class TransparentActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             OneSignal.Notifications.requestPermission(true)
         }
+
+        showCustomDialog()
 
         customSettingPopupLayoutBinding = CustomSettingPopupLayoutBinding.inflate(layoutInflater)
         customSettingDialog = Dialog(this)
@@ -109,17 +92,18 @@ class TransparentActivity : AppCompatActivity() {
         val height = WindowManager.LayoutParams.WRAP_CONTENT
         customSettingDialog?.window?.setLayout(width, height)
 
+        CommonGdprDialog.checkGDPR(this) {
+            App().getAdsFromRemoteConfig(this) {
+                showBannerAd(customSettingPopupLayoutBinding.bannerAds)
+            }
+        }
+
         val handler = Handler(Looper.getMainLooper())
         handler.postDelayed({
-            loadBannerAd(customSettingPopupLayoutBinding.bannerAds)
+            showBannerAd(customSettingPopupLayoutBinding.bannerAds)
         }, 1500L)
-        Log.i("TAG", "onCreatesdfgsdfg: 3")
 
-        showCustomDialog()
-
-        Log.i("TAG", "onCreatesdfgsdfg: 4")
     }
-
 
     private fun showCustomDialog() {
 
@@ -141,7 +125,7 @@ class TransparentActivity : AppCompatActivity() {
 
             val handler = Handler(Looper.getMainLooper())
             handler.postDelayed({
-                loadBannerAd(customDialogBinding.bannerAds)
+                showBannerAd(customDialogBinding.bannerAds)
             }, 1500L)
 
             Constant.createClickableSpan(this, customDialogBinding)
@@ -175,8 +159,6 @@ class TransparentActivity : AppCompatActivity() {
                     appPreferences.setCountryCode(countryCode)
                 }
             }
-
-
 
             if (appPreferences.getHideHelpTextFromMain()) {
                 customDialogBinding.helpText.visibility = View.GONE
@@ -337,15 +319,6 @@ class TransparentActivity : AppCompatActivity() {
                 customDialogBinding.editTextCarrierNumber.setText(lastCopiedText)
             }
 
-            /*     customDialog?.window?.decorView?.setOnTouchListener { _, event ->
-                     if (event.action == MotionEvent.ACTION_OUTSIDE) {
-                         return@setOnTouchListener true
-                     }
-                     false
-                 }
-     */
-
-
             customDialog?.show()
         }
 
@@ -384,7 +357,6 @@ class TransparentActivity : AppCompatActivity() {
             val modifiedString = String.format(originalString, yourNumber)
             customSettingPopupLayoutBinding.restorePrefixNoneWhenTheAppCloses.text = modifiedString
         }
-
 
         customSettingPopupLayoutBinding.scSaveRecentAndMessages.setOnCheckedChangeListener { _, isChecked ->
             appPreferences.setSaveRecentAndMessages(isChecked)
@@ -579,11 +551,11 @@ class TransparentActivity : AppCompatActivity() {
         }
 
         deleteDialogPopupLayoutBinding.tvCancel.setOnClickListener {
-            deleteDialog?.dismiss()
+            deleteDialog.dismiss()
         }
 
 
-        deleteDialog?.show()
+        deleteDialog.show()
     }
 
 
@@ -593,30 +565,30 @@ class TransparentActivity : AppCompatActivity() {
 
         telegramAttentionDilogBinding = TelegramAttentionDilogBinding.inflate(layoutInflater)
         customAttentionDialog = Dialog(this)
-        customAttentionDialog?.setContentView(telegramAttentionDilogBinding.root)
+        customAttentionDialog.setContentView(telegramAttentionDilogBinding.root)
 
         val displayMetrics = resources.displayMetrics
         val width = (displayMetrics.widthPixels * 0.9).toInt()
         val height = WindowManager.LayoutParams.WRAP_CONTENT
 
-        customAttentionDialog?.window?.setLayout(width, height)
+        customAttentionDialog.window?.setLayout(width, height)
 
         val appPreferences = AppPreferences(this)
         telegramAttentionDilogBinding.tvOk.setOnClickListener {
             appPreferences.setTelegramSupport(true)
             customSettingPopupLayoutBinding.scTelegram.isChecked = true
-            customAttentionDialog?.dismiss()
+            customAttentionDialog.dismiss()
         }
 
 
         telegramAttentionDilogBinding.tvCancel.setOnClickListener {
-            customAttentionDialog?.dismiss()
+            customAttentionDialog.dismiss()
             appPreferences.setTelegramSupport(false)
             customSettingPopupLayoutBinding.scTelegram.isChecked = false
         }
 
 
-        customAttentionDialog?.show()
+        customAttentionDialog.show()
     }
 
 
@@ -627,7 +599,7 @@ class TransparentActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         val appPreferences = AppPreferences(this)
-        val countryCode = customDialogBinding.countryCodePicker?.selectedCountryCodeWithPlus
+        val countryCode = customDialogBinding.countryCodePicker.selectedCountryCodeWithPlus
         if (appPreferences.getRestorePrefix().not()) {
             appPreferences.setCountryCode(countryCode)
         }
@@ -690,10 +662,8 @@ class TransparentActivity : AppCompatActivity() {
                 }
 
                 RESULT_OK -> {
-//                    startFlow()
                     Toast.makeText(this, "app is UpDated", Toast.LENGTH_SHORT).show()
                 }
-
                 else -> {
                     Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
                 }

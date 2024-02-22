@@ -1,4 +1,4 @@
-package com.mobileappxperts.clicktochat.whatsapp.clicktooprnchat.utils
+package openinwhatsapp.directchat.clicktochat.clicktooprnchat.utils
 
 import AppPreferences
 import android.Manifest
@@ -26,9 +26,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.play.core.review.ReviewManagerFactory
-import com.mobileappxperts.clicktochat.whatsapp.R
-import com.mobileappxperts.clicktochat.whatsapp.databinding.CustomSettingPopupLayoutBinding
-import com.mobileappxperts.clicktochat.whatsapp.databinding.MainLayoutBinding
+import openinwhatsapp.directchat.clicktochat.R
+import openinwhatsapp.directchat.clicktochat.databinding.CustomSettingPopupLayoutBinding
+import openinwhatsapp.directchat.clicktochat.databinding.MainLayoutBinding
 import java.net.URLEncoder
 
 
@@ -211,7 +211,7 @@ object Constant {
 
 
     fun Activity.showRateUsDialog() {
-        if ((System.currentTimeMillis() - AppPreferences(this).getstartTime()) < Constant.AdConstant.rateUsDelay) return
+        if ((System.currentTimeMillis() - AppPreferences(this).getstartTime()) < AdConstant.rateUsDelay) return
         if ((System.currentTimeMillis() - AppPreferences(this).getcheckDaysForReviewDialog()) < 604800000) {
             Log.e("TAGGGGG", "showFeedbackDialog: false")
             return
@@ -494,9 +494,6 @@ object Constant {
         Log.i("TAG", "Formatted phone number: $phoneNumber")
         return phoneNumber
     }
-
-
-
 
     fun createClickableSpan(context: Context,customDialogBinding: MainLayoutBinding) {
         val completeText =
